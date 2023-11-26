@@ -1,0 +1,15 @@
+includes:
+	- extension.neon
+	- rules.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan-phpunit/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+	- phar://phpstan.phar/conf/bleedingEdge.neon
+	- phpstan-baseline.neon
+
+parameters:
+	excludePaths:
+		- tests/tmp/*
+		- tests/*/Example*.php
+		- tests/*/console_application_loader.php
+		- tests/*/data/*
