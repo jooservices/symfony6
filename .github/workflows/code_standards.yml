@@ -32,7 +32,7 @@ jobs:
       - name: Setup application
         if: success()
         run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php -r "file_exists('.env') || copy('.env.test', '.env');"
           composer install --no-ansi --no-scripts --no-progress --prefer-dist
 
       - name: Lint
