@@ -1,0 +1,27 @@
+# https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
+name: Build & Tests
+
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize ]
+
+jobs:
+
+  security_check:
+    name: Security check
+    uses: ./.github/workflows/security_check.yml
+    secrets: inherit
+
+  code_standards:
+    name: Code standards check
+    needs: [ security_check ]
+    strategy:
+      matrix:
+        lint: [ phpstan, phpmd, phpcs ]
+    uses: ./.github/workflows/code_standards.yml
+    with:
+      lint: ${{ matrix.lint }}
+    secrets: inherit
