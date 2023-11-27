@@ -61,6 +61,20 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpstan": [
+            "@php vendor/bin/phpstan analyze src"
+        ],
+        "phpmd": [
+            "@php vendor/bin/phpmd src github phpmd.xml"
+        ],
+        "phpcs": [
+            "@php vendor/bin/phpcs --standard=./phpcs.xml"
+        ],
+        "lint" : [
+            "@php vendor/bin/phpstan analyze src",
+            "@php vendor/bin/phpmd src github phpmd.xml",
+            "@php vendor/bin/phpcs --standard=./phpcs.xml"
         ]
     },
     "conflict": {
