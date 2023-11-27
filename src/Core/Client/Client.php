@@ -6,7 +6,6 @@ use App\Core\Client\Response\ResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
 /**
@@ -22,9 +21,15 @@ class Client implements ClientInterface
 
     public function withOptions(array $options): static
     {
-        $this->eventDispatcher->dispatch(new Event\BeforeUpdateClientOptions($options), Event\BeforeUpdateClientOptions::NAME);
+        $this->eventDispatcher->dispatch(
+            new Event\BeforeUpdateClientOptions($options),
+            Event\BeforeUpdateClientOptions::NAME
+        );
         $this->client = $this->client->withOptions($options);
-        $this->eventDispatcher->dispatch(new Event\AfterUpdatedClientOptions($options), Event\AfterUpdatedClientOptions::NAME);
+        $this->eventDispatcher->dispatch(
+            new Event\AfterUpdatedClientOptions($options),
+            Event\AfterUpdatedClientOptions::NAME
+        );
 
         return $this;
     }
