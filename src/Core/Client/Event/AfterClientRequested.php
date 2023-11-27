@@ -7,12 +7,12 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class AfterClientRequested extends Event
 {
-    const NAME = 'client.after_requested';
+    public const NAME = 'client.after_requested';
 
     public function __construct(
-        private readonly string            $method,
-        private readonly string            $url,
-        private readonly array             $options,
+        private readonly string $method,
+        private readonly string $url,
+        private readonly array $options,
         private readonly ResponseInterface $response
     ) {
     }

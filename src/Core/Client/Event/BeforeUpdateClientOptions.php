@@ -6,7 +6,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class BeforeUpdateClientOptions extends Event
 {
-    const NAME = 'client.before_update_options';
+    public const NAME = 'client.before_updated_client_options';
 
     public function __construct(
         private readonly array $options

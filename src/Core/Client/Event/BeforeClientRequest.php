@@ -6,10 +6,13 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class BeforeClientRequest extends Event
 {
-    const NAME = 'client.before_request';
+    public const NAME = 'client.before_client_request';
 
-    public function __construct(private string $method, private string $url, private array $options = [])
-    {
+    public function __construct(
+        private readonly string $method,
+        private readonly string $url,
+        private readonly array $options = []
+    ) {
     }
 
     public function getMethod(): string

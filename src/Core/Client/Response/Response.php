@@ -6,7 +6,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class Response implements ResponseInterface
 {
-    public function __construct(private \Symfony\Contracts\HttpClient\ResponseInterface $response)
+    public function __construct(private readonly \Symfony\Contracts\HttpClient\ResponseInterface $response)
     {
     }
 

@@ -14,11 +14,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ClientRequestSubscriber implements EventSubscriberInterface
 {
-    public function afterClientRequestedEvent(AfterClientRequested $event)
+    public function afterClientRequestedEvent(AfterClientRequested $event): void
     {
     }
 
-    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event)
+    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event): void
     {
     }
 
