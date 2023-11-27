@@ -10,11 +10,6 @@ on:
 
 jobs:
 
-  sonar_cloud:
-    name: SonarCloud
-    uses: ./.github/workflows/sonar_cloud.yml
-    secrets: inherit
-
   security_check:
     name: Security check
     uses: ./.github/workflows/security_check.yml
@@ -22,7 +17,7 @@ jobs:
 
   code_standards:
     name: Code standards check
-    needs: [ sonar_cloud, security_check ]
+    needs: [ security_check ]
     strategy:
       matrix:
         lint: [ phpstan, phpmd, phpcs ]
