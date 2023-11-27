@@ -19,6 +19,11 @@ class Client implements ClientInterface
     ) {
     }
 
+    /**
+     * @TODO Validate options
+     * @param array $options
+     * @return $this
+     */
     public function withOptions(array $options): static
     {
         $this->eventDispatcher->dispatch(
@@ -41,7 +46,7 @@ class Client implements ClientInterface
             Event\BeforeClientRequest::NAME
         );
 
-        $response = $this->client->request($method, $url, $options);
+        $response = $this->client->request(strtoupper($method), $url, $options);
         $response = new Response\Response($response);
 
         $this->eventDispatcher->dispatch(

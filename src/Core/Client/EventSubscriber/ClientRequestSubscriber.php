@@ -14,14 +14,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ClientRequestSubscriber implements EventSubscriberInterface
 {
-    public function afterClientRequestedEvent(AfterClientRequested $event): void
-    {
-    }
-
-    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event): void
-    {
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -36,7 +28,15 @@ class ClientRequestSubscriber implements EventSubscriberInterface
     {
     }
 
-    public function beforeUpdateOptionsEvent(BeforeClientRequest $event): void
+    public function afterClientRequestedEvent(AfterClientRequested $event): void
+    {
+    }
+
+    public function beforeUpdateOptionsEvent(BeforeUpdateClientOptions $event): void
+    {
+    }
+
+    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event): void
     {
     }
 }
