@@ -1,8 +1,6 @@
 <?php
 
-namespace App\ODM\Adapter;
-
-use App\ODM\ODMAdapterInterface;
+namespace App\ODM;
 
 class AccountService
 {
