@@ -2,10 +2,12 @@
 
 namespace App\Core\Client;
 
-use App\Core\Client\Response\ResponseInterface;
+use App\Core\Client\Response\CopResponse;
+use App\Core\Client\Response\CopResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
 /**
@@ -21,45 +23,51 @@ class Client implements ClientInterface
 
     /**
      * @TODO Validate options
-     * @param array $options
+     * @param array $requestOptions
      * @return $this
      */
-    public function withOptions(array $options): static
+    public function withOptions(array $requestOptions): static
     {
         $this->eventDispatcher->dispatch(
-            new Event\BeforeUpdateClientOptions($options),
+            new Event\BeforeUpdateClientOptions($requestOptions),
             Event\BeforeUpdateClientOptions::NAME
         );
-        $this->client = $this->client->withOptions($options);
+        $this->client = $this->client->withOptions($requestOptions);
         $this->eventDispatcher->dispatch(
-            new Event\AfterUpdatedClientOptions($options),
+            new Event\AfterUpdatedClientOptions($requestOptions),
             Event\AfterUpdatedClientOptions::NAME
         );
 
         return $this;
     }
 
-    public function request(string $method, string $url, array $options = []): ResponseInterface
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function request(string $method, string $url, array $requestOptions = []): CopResponseInterface
     {
         $this->eventDispatcher->dispatch(
-            new Event\BeforeClientRequest($method, $url, $options),
+            new Event\BeforeClientRequest($method, $url, $requestOptions),
             Event\BeforeClientRequest::NAME
         );
 
-        $response = $this->client->request(strtoupper($method), $url, $options);
-        $response = new Response\Response($response);
+        /**
+         * @TODO Validate options
+         */
+        $response = $this->client->request(strtoupper($method), $url, $requestOptions);
+        $copResponse = new Response\CopResponse($response);
 
         $this->eventDispatcher->dispatch(
-            new Event\AfterClientRequested($method, $url, $options, $response),
+            new Event\AfterClientRequested($method, $url, $requestOptions, $copResponse),
             Event\AfterClientRequested::NAME
         );
 
-        return $response;
+        return $copResponse;
     }
 
     public function stream(
-        iterable|ResponseInterface|\Symfony\Contracts\HttpClient\ResponseInterface $responses,
-        float $timeout = null
+        iterable|CopResponseInterface|ResponseInterface $responses,
+        float                                           $timeout = null
     ): ResponseStreamInterface {
         return $this->client->stream($responses, $timeout);
     }
@@ -67,40 +75,40 @@ class Client implements ClientInterface
     /**
      * @throws TransportExceptionInterface
      */
-    public function get(string $url, array $options = []): ResponseInterface
+    public function get(string $url, array $requestOptions = []): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function post(string $url, array $options = []): ResponseInterface
+    public function post(string $url, array $requestOptions = []): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function put(string $url, array $options = []): ResponseInterface
+    public function put(string $url, array $requestOptions = []): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function delete(string $url, array $options = []): ResponseInterface
+    public function delete(string $url, array $requestOptions = []): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function patch(string $url, array $options = []): ResponseInterface
+    public function patch(string $url, array $requestOptions = []): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 }

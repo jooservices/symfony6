@@ -3,10 +3,11 @@
 namespace App\Core\Client\Response;
 
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class Response implements ResponseInterface
+class CopResponse implements CopResponseInterface
 {
-    public function __construct(private readonly \Symfony\Contracts\HttpClient\ResponseInterface $response)
+    public function __construct(private readonly ResponseInterface $response)
     {
     }
 

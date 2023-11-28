@@ -2,18 +2,21 @@
 
 namespace App\Core\Client;
 
-use App\Core\Client\Response\ResponseInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Core\Client\Response\CopResponseInterface;
 
-interface ClientInterface extends HttpClientInterface
+interface ClientInterface
 {
-    public function get(string $url, array $options = []): ResponseInterface;
+    public function get(string $url, array $requestOptions = []): CopResponseInterface;
 
-    public function post(string $url, array $options = []): ResponseInterface;
+    public function post(string $url, array $requestOptions = []): CopResponseInterface;
 
-    public function put(string $url, array $options = []): ResponseInterface;
+    public function put(string $url, array $requestOptions = []): CopResponseInterface;
 
-    public function delete(string $url, array $options = []): ResponseInterface;
+    public function delete(string $url, array $requestOptions = []): CopResponseInterface;
 
-    public function patch(string $url, array $options = []): ResponseInterface;
+    public function patch(string $url, array $requestOptions = []): CopResponseInterface;
+
+    public function request(string $method, string $url, array $requestOptions = []): CopResponseInterface;
+
+    public function withOptions(array $requestOptions): static;
 }
