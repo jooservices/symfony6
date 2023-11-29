@@ -4,7 +4,7 @@ namespace App\ODM\Adapter;
 
 use App\ODM\ODMAdapterInterface;
 
-class AccountLocalApi implements ODMAdapterInterface
+class AccountLocalAdapter implements ODMAdapterInterface
 {
     public function __construct()
     {

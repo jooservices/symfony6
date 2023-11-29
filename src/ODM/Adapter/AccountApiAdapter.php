@@ -2,6 +2,7 @@
 
 namespace App\ODM\Adapter;
 
+use App\Core\Client\RequestOptions;
 use App\ODM\ODMAdapterInterface;
 use App\ODM\ODMClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -25,7 +26,7 @@ class AccountApiAdapter implements ODMAdapterInterface
      */
     public function list(array $options): array
     {
-        return $this->client->get('api/v1/external/account/', ['query' => $options])->toArray();
+        return $this->client->get('api/v1/external/account/', new RequestOptions(['query' => $options]))->toArray();
     }
 
     /**

@@ -3,55 +3,54 @@
 namespace App\ODM;
 
 use App\Core\Client\ClientInterface;
+use App\Core\Client\RequestOptions;
 use App\Core\Client\Response\CopResponseInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ODMClient
 {
-    private string $baseUri;
-
     public function __construct(private ClientInterface $client, private readonly ParameterBagInterface $parameterBag)
     {
-        $this->baseUri = $this->parameterBag->get('odm_base_uri');
         /**
          * @TODO
          * - Provide authentication
          * - Use Factory instead
          */
-        $this->client = $this->client->withOptions([
-                'base_uri' => $this->baseUri,
+        $requestOptions = new RequestOptions([
+                'base_uri' => $this->parameterBag->get('odm_base_uri'),
                 'verify_host' => false,
                 'verify_peer' => false,
         ]);
+        $this->client = $this->client->withOptions($requestOptions);
     }
 
-    public function get(string $path, array $requestOptions = []): CopResponseInterface
+    public function get(string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
         return $this->client->request(__FUNCTION__, $path, $requestOptions);
     }
 
-    public function post(string $path, array $requestOptions = []): CopResponseInterface
+    public function post(string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
         return $this->client->request(__FUNCTION__, $path, $requestOptions);
     }
 
-    public function put(string $path, array $requestOptions = []): CopResponseInterface
+    public function put(string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
         return $this->client->request(__FUNCTION__, $path, $requestOptions);
     }
 
-    public function delete(string $path, array $requestOptions = []): CopResponseInterface
+    public function delete(string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
         return $this->client->request(__FUNCTION__, $path, $requestOptions);
     }
 
-    public function patch(string $path, array $requestOptions = []): CopResponseInterface
+    public function patch(string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
         return $this->client->request(__FUNCTION__, $path, $requestOptions);
     }
 
-    public function request(string $method, string $path, array $options = []): CopResponseInterface
+    public function request(string $method, string $path, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->client->request($method, $path, $options);
+        return $this->client->request($method, $path, $requestOptions);
     }
 }

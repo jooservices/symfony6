@@ -26,13 +26,21 @@ services:
         autowire: true
         autoconfigure: true
     # ODM
-    App\ODM\Client:
+    App\ODM\ODMClient:
       public: true
       autowire: true
       autoconfigure: true
-    App\ODM\API\Account:
+    App\ODM\AccountService:
       public: true
       autowire: true
       autoconfigure: true
+
+    App\ODM\Adapter\AccountApiAdapter:
+      public: true
+      autowire: true
+      autoconfigure: true
+
+    App\ODM\ODMAdapterInterface: '@App\ODM\Adapter\AccountApiAdapter'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

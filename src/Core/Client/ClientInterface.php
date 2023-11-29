@@ -6,17 +6,17 @@ use App\Core\Client\Response\CopResponseInterface;
 
 interface ClientInterface
 {
-    public function get(string $url, array $requestOptions = []): CopResponseInterface;
+    public function get(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function post(string $url, array $requestOptions = []): CopResponseInterface;
+    public function post(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function put(string $url, array $requestOptions = []): CopResponseInterface;
+    public function put(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function delete(string $url, array $requestOptions = []): CopResponseInterface;
+    public function delete(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function patch(string $url, array $requestOptions = []): CopResponseInterface;
+    public function patch(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function request(string $method, string $url, array $requestOptions = []): CopResponseInterface;
+    public function request(string $method, string $url, ?RequestOptions $requestOptions = null): CopResponseInterface;
 
-    public function withOptions(array $requestOptions): static;
+    public function withOptions(RequestOptions $requestOptions): static;
 }
