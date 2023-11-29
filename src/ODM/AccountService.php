@@ -2,27 +2,38 @@
 
 namespace App\ODM;
 
+use App\ApiModel\Resource\Account\AccountDto;
+
 class AccountService
 {
     public function __construct(private readonly ODMAdapterInterface $adapter)
     {
     }
 
-    /**
-     * @TODO Receive param by DTO and return DTO
-     * @param string $id
-     * @return void
-     */
-    public function getAccountById(string $id)
+    public function getAccountByUuid(string $uuid): AccountDto
     {
-        $response = $this->adapter->item($id);
-        /**
-         * @TODO Convert to DTO
-         */
+        $response = $this->adapter->item($uuid);
+        $account = new AccountDto();
+        $account->loadFromArray($response);
+
+        return $account;
     }
 
-    public function getAccounts(string $email)
+    /**
+     * @return AccountDto[]
+     */
+    public function getAccounts(string $email): array
     {
         $response = $this->adapter->list(['email' => $email]);
+        $accounts = [];
+
+        if (!empty($response)) {
+            $accounts = array_map(function ($item) {
+                $account = new AccountDto();
+                return $account->loadFromArray($item);
+            }, $response);
+        }
+
+        return $accounts;
     }
 }
