@@ -28,10 +28,7 @@ services:
         public: true
         autowire: true
         autoconfigure: true
-    App\Core\Client\Document\RequestLog:
-        public: true
-        autowire: true
-        autoconfigure: true
+
     # ODM
     App\ODM\ODMClient:
       public: true

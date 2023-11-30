@@ -25,15 +25,14 @@ class AccountService
     public function getAccounts(string $email): array
     {
         $response = $this->adapter->list(['email' => $email]);
-        $accounts = [];
 
-        if (!empty($response)) {
-            $accounts = array_map(function ($item) {
-                $account = new AccountDto();
-                return $account->loadFromArray($item);
-            }, $response);
+        if (empty($response)) {
+            return [];
         }
 
-        return $accounts;
+        return array_map(function ($item) {
+            $account = new AccountDto();
+            return $account->loadFromArray($item);
+        }, $response);
     }
 }

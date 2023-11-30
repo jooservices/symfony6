@@ -7,6 +7,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RequestOptions
 {
+    private bool $verify_peer = false;
+    private bool $verify_host = false;
+
     public function __construct(array $options = [])
     {
         $this->fromArray($options);

@@ -5,14 +5,19 @@ namespace App\Tests\Services;
 use App\ApiModel\Resource\Account\AccountDto;
 use App\ODM\AccountService;
 use App\ODM\ODMAdapterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AccountServiceTest extends TestCase
+class AccountServiceTest extends KernelTestCase
 {
-    private $adapter;
+    private MockObject $adapter;
 
     public function setUp(): void
     {
+        parent::setUp();
+        $this->bootKernel();
+
         $this->adapter = $this->createMock(ODMAdapterInterface::class);
     }
     public function testGetAccountByUuid()

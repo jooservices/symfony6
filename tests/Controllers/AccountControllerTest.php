@@ -3,13 +3,14 @@
 namespace App\Tests\Controllers;
 
 use App\Tests\AssertHelper;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AccountControllerTest extends WebTestCase
 {
     use AssertHelper;
 
-    private $client;
+    private KernelBrowser $client;
 
     public function setUp(): void
     {

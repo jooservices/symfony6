@@ -120,7 +120,7 @@ class AccountController extends AbstractController
 
     #[Route(
         path: '/api/accounts',
-        name: 'updateAccount',
+        name: 'deleteAccount',
         methods: 'DELETE',
     )]
     public function delete(): JsonResponse
