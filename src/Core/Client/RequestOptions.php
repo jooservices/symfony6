@@ -9,6 +9,7 @@ class RequestOptions
 {
     private bool $verify_peer = false;
     private bool $verify_host = false;
+    private ?array $query = null;
 
     public function __construct(array $options = [])
     {
