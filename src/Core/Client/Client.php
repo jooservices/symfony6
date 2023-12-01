@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 class Client implements ClientInterface
 {
     public function __construct(
-        private HttpClientInterface               $client,
+        private HttpClientInterface $client,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
@@ -86,7 +86,7 @@ class Client implements ClientInterface
 
     public function stream(
         iterable|CopResponseInterface|ResponseInterface $responses,
-        float                                           $timeout = null
+        float $timeout = null
     ): ResponseStreamInterface {
         return $this->client->stream($responses, $timeout);
     }

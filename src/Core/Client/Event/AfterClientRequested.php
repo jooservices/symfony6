@@ -11,9 +11,9 @@ class AfterClientRequested extends Event
     public const NAME = 'client.after_requested';
 
     public function __construct(
-        private readonly string               $method,
-        private readonly string               $url,
-        private readonly ?RequestOptions      $requestOptions,
+        private readonly string $method,
+        private readonly string $url,
+        private readonly ?RequestOptions $requestOptions,
         private readonly CopResponseInterface $response
     ) {
     }
