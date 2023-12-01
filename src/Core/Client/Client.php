@@ -2,10 +2,8 @@
 
 namespace App\Core\Client;
 
-use App\Document\RequestLog;
 use App\Core\Client\Response\CopResponseInterface;
 use App\Core\Exceptions\GeneralException;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -25,7 +23,6 @@ class Client implements ClientInterface
     }
 
     /**
-     * @TODO Validate options
      * @param RequestOptions $requestOptions
      * @return $this
      */

@@ -24,15 +24,8 @@ class ClientRequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-                BeforeClientRequest::NAME => 'beforeClientRequestEvent',
                 AfterClientRequested::NAME => 'afterClientRequestedEvent',
-                BeforeUpdateClientOptions::NAME => 'beforeUpdateOptionsEvent',
-                AfterUpdatedClientOptions::NAME => 'afterUpdatedClientOptions',
         ];
-    }
-
-    public function beforeClientRequestEvent(BeforeClientRequest $event): void
-    {
     }
 
     public function afterClientRequestedEvent(AfterClientRequested $event): void
@@ -46,13 +39,5 @@ class ClientRequestSubscriber implements EventSubscriberInterface
 
         $this->documentManager->persist($requestLog);
         $this->documentManager->flush();
-    }
-
-    public function beforeUpdateOptionsEvent(BeforeUpdateClientOptions $event): void
-    {
-    }
-
-    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event): void
-    {
     }
 }
