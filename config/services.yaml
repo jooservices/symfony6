@@ -4,7 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    env(MONGODB_URL): ''
+    env(MONGODB_DB): ''
+    odm_base_uri: '%env(ODM_BASE_URL)%'
+    mongodb_server: "mongodb://localhost:27017"
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,5 +28,23 @@ services:
         public: true
         autowire: true
         autoconfigure: true
+
+    # ODM
+    App\ODM\ODMClient:
+      public: true
+      autowire: true
+      autoconfigure: true
+
+    App\ODM\Adapter\AccountApiAdapter:
+      public: true
+      autowire: true
+      autoconfigure: true
+
+    App\ODM\AccountService:
+      public: true
+      autowire: true
+      autoconfigure: true
+      arguments:
+        $adapter: '@App\ODM\Adapter\AccountApiAdapter'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

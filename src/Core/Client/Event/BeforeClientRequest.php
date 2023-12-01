@@ -2,6 +2,7 @@
 
 namespace App\Core\Client\Event;
 
+use App\Core\Client\RequestOptions;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class BeforeClientRequest extends Event
@@ -11,7 +12,7 @@ class BeforeClientRequest extends Event
     public function __construct(
         private readonly string $method,
         private readonly string $url,
-        private readonly array $options = []
+        private readonly ?RequestOptions $requestOptions
     ) {
     }
 
@@ -25,8 +26,8 @@ class BeforeClientRequest extends Event
         return $this->url;
     }
 
-    public function getOptions(): array
+    public function getRequestOptions(): array
     {
-        return $this->options;
+        return $this->requestOptions ? $this->requestOptions->toArray() : [];
     }
 }

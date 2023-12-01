@@ -6,6 +6,8 @@ use App\Core\Client\Event\AfterClientRequested;
 use App\Core\Client\Event\AfterUpdatedClientOptions;
 use App\Core\Client\Event\BeforeClientRequest;
 use App\Core\Client\Event\BeforeUpdateClientOptions;
+use App\Document\RequestLog;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -14,29 +16,28 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ClientRequestSubscriber implements EventSubscriberInterface
 {
-    public function afterClientRequestedEvent(AfterClientRequested $event): void
-    {
-    }
-
-    public function afterUpdatedClientOptions(AfterUpdatedClientOptions $event): void
-    {
+    public function __construct(
+        private readonly DocumentManager $documentManager
+    ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-                BeforeClientRequest::NAME => 'beforeClientRequestEvent',
                 AfterClientRequested::NAME => 'afterClientRequestedEvent',
-                BeforeUpdateClientOptions::NAME => 'beforeUpdateOptionsEvent',
-                AfterUpdatedClientOptions::NAME => 'afterUpdatedClientOptions',
         ];
     }
 
-    public function beforeClientRequestEvent(BeforeClientRequest $event): void
+    public function afterClientRequestedEvent(AfterClientRequested $event): void
     {
-    }
+        $requestLog = new RequestLog();
+        $requestLog->setUrl($event->getUrl());
+        $requestLog->setMethod($event->getMethod());
+        $requestLog->setRequestOptions($event->getRequestOptions());
+        $requestLog->setResponse($event->getResponse()->getContent());
+        $requestLog->setStatusCode($event->getResponse()->getStatusCode());
 
-    public function beforeUpdateOptionsEvent(BeforeClientRequest $event): void
-    {
+        $this->documentManager->persist($requestLog);
+        $this->documentManager->flush();
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Core\Client\Event;
 
-use App\Core\Client\Response\ResponseInterface;
+use App\Core\Client\RequestOptions;
+use App\Core\Client\Response\CopResponseInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class AfterClientRequested extends Event
@@ -12,8 +13,8 @@ class AfterClientRequested extends Event
     public function __construct(
         private readonly string $method,
         private readonly string $url,
-        private readonly array $options,
-        private readonly ResponseInterface $response
+        private readonly ?RequestOptions $requestOptions,
+        private readonly CopResponseInterface $response
     ) {
     }
 
@@ -27,12 +28,12 @@ class AfterClientRequested extends Event
         return $this->url;
     }
 
-    public function getOptions(): array
+    public function getRequestOptions(): array
     {
-        return $this->options;
+        return $this->requestOptions ? $this->requestOptions->toArray() : [];
     }
 
-    public function getResponse(): ResponseInterface
+    public function getResponse(): CopResponseInterface
     {
         return $this->response;
     }

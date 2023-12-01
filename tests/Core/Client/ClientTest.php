@@ -3,8 +3,8 @@
 namespace App\Tests\Core\Client;
 
 use App\Core\Client\Client;
+use App\Core\Exceptions\GeneralException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * @covers \App\Core\Client\Client
@@ -25,7 +25,7 @@ class ClientTest extends KernelTestCase
      */
     public function testClientWithException()
     {
-        $this->expectException(TransportExceptionInterface::class);
+        $this->expectException(GeneralException::class);
         $client = $this->getContainer()->get(Client::class);
         $client->request('GET', 'https://invalid.domain/');
     }

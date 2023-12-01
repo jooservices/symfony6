@@ -2,10 +2,13 @@
 
 namespace App\Core\Client;
 
-use App\Core\Client\Response\ResponseInterface;
+use App\Core\Client\Response\CopResponseInterface;
+use App\Core\Exceptions\GeneralException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
 /**
@@ -19,41 +22,67 @@ class Client implements ClientInterface
     ) {
     }
 
-    public function withOptions(array $options): static
+    /**
+     * @param RequestOptions $requestOptions
+     * @return $this
+     */
+    public function withOptions(RequestOptions $requestOptions): static
     {
         $this->eventDispatcher->dispatch(
-            new Event\BeforeUpdateClientOptions($options),
+            new Event\BeforeUpdateClientOptions($requestOptions),
             Event\BeforeUpdateClientOptions::NAME
         );
-        $this->client = $this->client->withOptions($options);
+
+        $this->client = $this->client->withOptions($requestOptions->toArray());
+
         $this->eventDispatcher->dispatch(
-            new Event\AfterUpdatedClientOptions($options),
+            new Event\AfterUpdatedClientOptions($requestOptions),
             Event\AfterUpdatedClientOptions::NAME
         );
 
         return $this;
     }
 
-    public function request(string $method, string $url, array $options = []): ResponseInterface
+    /**
+     * @throws GeneralException|TransportExceptionInterface
+     */
+    public function request(string $method, string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        $this->eventDispatcher->dispatch(
-            new Event\BeforeClientRequest($method, $url, $options),
-            Event\BeforeClientRequest::NAME
-        );
+        /**
+         * @link https://symfony.com/doc/current/http_client.html
+         * @link https://github.com/symfony/symfony/blob/6.3/src/Symfony/Contracts/HttpClient/HttpClientInterface.php
+         */
+        try {
+            $this->eventDispatcher->dispatch(
+                new Event\BeforeClientRequest($method, $url, $requestOptions),
+                Event\BeforeClientRequest::NAME
+            );
 
-        $response = $this->client->request($method, $url, $options);
-        $response = new Response\Response($response);
+            $response = $this->client->request(
+                strtoupper($method),
+                $url,
+                $requestOptions ? $requestOptions->toArray() : []
+            );
 
-        $this->eventDispatcher->dispatch(
-            new Event\AfterClientRequested($method, $url, $options, $response),
-            Event\AfterClientRequested::NAME
-        );
+            $copResponse = new Response\CopResponse($response);
 
-        return $response;
+            $this->eventDispatcher->dispatch(
+                new Event\AfterClientRequested($method, $url, $requestOptions, $copResponse),
+                Event\AfterClientRequested::NAME
+            );
+        } catch (\Exception $e) {
+            if ($e instanceof HttpExceptionInterface) {
+                return new Response\CopResponse($e->getResponse());
+            }
+
+            throw new GeneralException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $copResponse;
     }
 
     public function stream(
-        iterable|ResponseInterface|\Symfony\Contracts\HttpClient\ResponseInterface $responses,
+        iterable|CopResponseInterface|ResponseInterface $responses,
         float $timeout = null
     ): ResponseStreamInterface {
         return $this->client->stream($responses, $timeout);
@@ -61,41 +90,46 @@ class Client implements ClientInterface
 
     /**
      * @throws TransportExceptionInterface
+     * @throws GeneralException
      */
-    public function get(string $url, array $options = []): ResponseInterface
+    public function get(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws GeneralException
      */
-    public function post(string $url, array $options = []): ResponseInterface
+    public function post(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws GeneralException
      */
-    public function put(string $url, array $options = []): ResponseInterface
+    public function put(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws GeneralException
      */
-    public function delete(string $url, array $options = []): ResponseInterface
+    public function delete(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws GeneralException
      */
-    public function patch(string $url, array $options = []): ResponseInterface
+    public function patch(string $url, ?RequestOptions $requestOptions = null): CopResponseInterface
     {
-        return $this->request(__FUNCTION__, $url, $options);
+        return $this->request(__FUNCTION__, $url, $requestOptions);
     }
 }

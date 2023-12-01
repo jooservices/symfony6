@@ -1,4 +1,26 @@
 {
+    "doctrine/annotations": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.10",
+            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
+        }
+    },
+    "doctrine/mongodb-odm-bundle": {
+        "version": "4.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.4",
+            "ref": "a6bc3544da98c97b2eafb2ef1e86bcc8093d96cf"
+        },
+        "files": [
+            "config/packages/doctrine_mongodb.yaml",
+            "src/Document/.gitignore"
+        ]
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.40",
         "recipe": {
@@ -9,6 +31,27 @@
         },
         "files": [
             ".php-cs-fixer.dist.php"
+        ]
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "4.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        }
+    },
+    "nelmio/cors-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "6bea22e6c564fba3a1391615cada1437d0bde39c"
+        },
+        "files": [
+            "config/packages/nelmio_cors.yaml"
         ]
     },
     "phpstan/phpstan": {

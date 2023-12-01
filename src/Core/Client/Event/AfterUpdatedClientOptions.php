@@ -2,6 +2,7 @@
 
 namespace App\Core\Client\Event;
 
+use App\Core\Client\RequestOptions;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class AfterUpdatedClientOptions extends Event
@@ -9,12 +10,12 @@ class AfterUpdatedClientOptions extends Event
     public const NAME = 'client.after_updated_client_options';
 
     public function __construct(
-        private readonly array $options
+        private readonly RequestOptions $requestOptions
     ) {
     }
 
-    public function getOptions(): array
+    public function getRequestOptions(): array
     {
-        return $this->options;
+        return $this->requestOptions->toArray();
     }
 }
