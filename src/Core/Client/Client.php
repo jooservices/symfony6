@@ -16,6 +16,8 @@ use Symfony\Contracts\HttpClient\ResponseStreamInterface;
  */
 class Client implements ClientInterface
 {
+    private RequestOptions $requestOptions;
+
     public function __construct(
         private HttpClientInterface $client,
         private readonly EventDispatcherInterface $eventDispatcher
@@ -33,7 +35,8 @@ class Client implements ClientInterface
             Event\BeforeUpdateClientOptions::NAME
         );
 
-        $this->client = $this->client->withOptions($requestOptions->toArray());
+        $this->requestOptions = $requestOptions;
+        $this->client = $this->client->withOptions($this->requestOptions->toArray());
 
         $this->eventDispatcher->dispatch(
             new Event\AfterUpdatedClientOptions($requestOptions),
@@ -61,7 +64,10 @@ class Client implements ClientInterface
             $response = $this->client->request(
                 strtoupper($method),
                 $url,
-                $requestOptions ? $requestOptions->toArray() : []
+                array_merge(
+                    $this->requestOptions->toArray(),
+                    $requestOptions->toArray()
+                )
             );
 
             $copResponse = new Response\CopResponse($response);

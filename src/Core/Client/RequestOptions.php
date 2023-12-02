@@ -11,7 +11,7 @@ class RequestOptions
 
     public function __construct(array $options = [])
     {
-        $this->fromArray(array_merge(HttpClientInterface::OPTIONS_DEFAULTS, $options));
+        $this->fromArray($options);
     }
 
     public function __set(string $name, mixed $value): void
@@ -25,11 +25,13 @@ class RequestOptions
         throw new InvalidPropertyException("Property {$name} does not exist");
     }
 
-    public function __get(string $name)
+    public function __get(string $name): mixed
     {
         if (!isset($this->options[$name])) {
             throw new InvalidPropertyException("Property {$name} does not exist");
         }
+
+        return $this->options[$name];
     }
 
     public function __isset(string $name): bool
@@ -49,9 +51,7 @@ class RequestOptions
 
     public function fromArray(array $options): static
     {
-        foreach ($options as $name => $value) {
-            $this->options[$name] = $value;
-        }
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }
