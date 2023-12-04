@@ -61,12 +61,14 @@ class Client implements ClientInterface
                 Event\BeforeClientRequest::NAME
             );
 
+            $options = $requestOptions ? $requestOptions->toArray() : [];
+
             $response = $this->client->request(
                 strtoupper($method),
                 $url,
                 array_merge(
                     $this->requestOptions->toArray(),
-                    $requestOptions->toArray()
+                    $options
                 )
             );
 

@@ -6,7 +6,6 @@ use App\ApiModel\Resource\Account\AccountDto;
 use App\ODM\AccountService;
 use App\ODM\ODMAdapterInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AccountServiceTest extends KernelTestCase
