@@ -9,7 +9,7 @@ class ContractDto
     #[OA\Property(description: 'ID', example: 0, nullable: false)]
     public ?int $id = null;
 
-    #[OA\Property(description: 'Contract Uuid', example: 'contract01', nullable: false)]
+    #[OA\Property(description: 'Contract Uuid', example: 'a93ff1ff-09ff-480c-9bc4-2a8da9bd22ae', nullable: false)]
     public ?string $contractUuid = null;
 
     #[OA\Property(description: 'Contract Type', example: 'string', nullable: false)]

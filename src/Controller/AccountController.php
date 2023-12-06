@@ -33,7 +33,7 @@ class AccountController extends AbstractController
                 description: 'Account uuid',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string', example: 'account01')
+                schema: new OA\Schema(type: 'string', example: 'a93ff1ff-09ff-480c-9bc4-2a8da9bd22ae')
             ),
         ],
         responses: [

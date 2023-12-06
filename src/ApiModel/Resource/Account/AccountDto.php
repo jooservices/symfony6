@@ -10,7 +10,7 @@ class AccountDto
     #[OA\Property(description: 'ID', example: 0, nullable: false)]
     public ?int $id = null;
 
-    #[OA\Property(description: 'Account Uuid', example: 'account01', nullable: false)]
+    #[OA\Property(description: 'Account Uuid', example: 'a93ff1ff-09ff-480c-9bc4-2a8da9bd22ae', nullable: false)]
     public ?string $accountUuid = null;
 
     #[OA\Property(description: 'Company Name', example: 'Pluxee', nullable: false)]
