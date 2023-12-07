@@ -9,13 +9,18 @@
         "ext-iconv": "*",
         "doctrine/mongodb-odm-bundle": "^4.6",
         "guzzlehttp/guzzle": "^7.8",
+        "knplabs/knp-paginator-bundle": "^6.2",
+        "nesbot/carbon": "^2.71",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.3.*",
         "symfony/http-client": "6.3.*",
         "symfony/monolog-bundle": "^3.10",
+        "symfony/property-access": "6.3.*",
         "symfony/runtime": "6.3.*",
+        "symfony/serializer": "6.3.*",
+        "symfony/validator": "6.3.*",
         "symfony/yaml": "6.3.*"
     },
     "require-dev": {

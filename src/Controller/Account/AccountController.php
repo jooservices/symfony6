@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Account;
 
 use App\ApiModel\Resource\Account\AccountDto;
 use App\ApiModel\Resource\Errors\HttpError;
