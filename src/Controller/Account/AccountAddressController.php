@@ -114,7 +114,7 @@ class AccountAddressController extends AbstractController
     public function update(#[MapRequestPayload] AddressDto $dto, string $addressUid, string $accountUid): JsonResponse
     {
         $address = $this->addressService->update($dto, $addressUid, $accountUid);
-        
+
         if ($address instanceof JsonResponse) {
             return $address;
         }

@@ -53,5 +53,4 @@ class PagingMeta
 
         return $this;
     }
-
 }
