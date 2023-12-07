@@ -80,7 +80,7 @@ class AddressService
     {
         $payload = (array)$dto;
         $payload['sourceSystemCode'] = 'cop';
-        $payload['sourceTimestamp'] = Carbon::now();
+        $payload['sourceTimestamp'] = (new Carbon())->now();
         $payload['addressType'] = 'DELIVERY';
         $payload['relType'] = 'MAIN';
         $payload['externalAccountId'] = $accountUid;
